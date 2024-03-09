@@ -19,7 +19,7 @@ spec:
   volumes:
     - name: docker-config
       secret:
-        secretName: docker-config
+        secretName: registry-creds
   entrypoint: dag-target
   templates:
   - name: dag-target

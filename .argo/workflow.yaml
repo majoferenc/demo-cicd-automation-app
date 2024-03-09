@@ -1,0 +1,73 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: spring-boot-app-build-
+  annotations:
+    workflows.argoproj.io/description: |
+      Build and push a container image using BuildKit.
+    workflows.argoproj.io/maintainer: '@your_username'
+    workflows.argoproj.io/tags: build, spring-boot
+spec:
+  volumeClaimTemplates:
+  - metadata:
+      name: repo-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+  volumes:
+    - name: docker-config
+      secret:
+        secretName: docker-config
+  entrypoint: dag-target
+  templates:
+  - name: dag-target
+    steps:
+    - - name: git-clone
+        template: git-clone
+    - - name: gradle-build
+        template: gradle-build
+    - - name: docker-build
+        template: docker-build
+    - - name: update-argocd-manifest
+        template: update-argocd-manifest
+
+  - name: git-clone
+    container:
+      image: alpine/git
+      command: ["git", "clone", "https://github.com/majoferenc/demo-cicd-automation-app.git", "/workspace"]
+      volumeMounts:
+      - name: repo-volume
+        mountPath: /workspace
+  - name: gradle-build
+    container:
+      image: gradle:jdk17
+      command: ["gradle", "build"]
+      workingDir: /workspace
+      volumeMounts:
+      - name: repo-volume
+        mountPath: /workspace
+  - name: docker-build
+    container:
+      image: moby/buildkit:v0.7.2-rootless
+      volumeMounts:
+      - name: docker-config
+        mountPath: /.docker
+      - name: repo-volume
+        mountPath: /workspace
+      env:
+        - name: BUILDKITD_FLAGS
+          value: --oci-worker-no-process-sandbox
+        - name: DOCKER_CONFIG
+          value: /.docker
+      command: ["buildctl-daemonless.sh"]
+      args: ["build", "--frontend", "dockerfile.v0", "--local", "context=.", "--local", "dockerfile=.", "--output", "type=image,name=docker.io/marianferenc/argo-demo-app:latest,push=true"]
+      workingDir: /workspace
+  - name: update-argocd-manifest
+    container:
+      image: alpine/helm:3.6.3
+      command: ["helm", "template", "--set", "image.tag=latest", "/chart", "-n", "argo"]
+      volumeMounts:
+      - name: repo-volume
+        mountPath: /workspace

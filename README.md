@@ -2,11 +2,37 @@
 
 ## Prerequisites
 
+### Install WSL (Windows Only)
+Install WSL https://learn.microsoft.com/en-us/windows/wsl/install
+
 ### Install CLI tools
-install argo, argocd, helm, kubectl, k9s, kubens, kubectx, docker, neovim, jq, mktemp, yq
+install argo, argocd, kubernetes-helm, kubectl, k9s, kubens, kubectx, docker, neovim, jq, mktemp, yq (yamlq), argocd-autopilot
+
+Via NixOS:
+
+    curl -L https://nixos.org/nix/install | sh
+    nix-shell --packages argo argocd kubernetes-helm kubectl k9s kubectx docker neovim jq mktemp yq argocd-autopilot
+
+To stop using installed packages, just type `exit` command and your Nix session will stop.
+Search for more packages on https://search.nixos.org to try them out.
+
+To free up Nix storage cache run:
+
+    nix-collect-garbage
 
 ### Setup local k8s cluster
-Rancher Desktop
+- Install Rancher Desktop from https://rancherdesktop.io/
+- Enable Kubernetes cluster feature
+  ![Rancher Desktop Enable K8s](/docs/RancherDesktopEnableK8s.png)
+
+Windows Only:
+- Forward cluster to WSL via: Preferences -> WSL -> Integrations -> Ubuntu
+  ![Rancher Desktop Forward K8s](/docs/RancherDesktopForwardK8s.png)
+
+### Activate Rancher K8s Cluster Context
+To work with local Rancher Desktop K8s cluster please execute following command:
+
+    kubectx rancher-desktop
 
 ### Install Argo Workflows into the cluster
 
@@ -18,7 +44,6 @@ https://argoproj.github.io/argo-events/quick_start/
 
     kubectl create namespace argo-events
     kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
-    kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
 
 ### Install Argo CD into the cluster
 https://argo-cd.readthedocs.io/en/stable/getting_started/
@@ -54,13 +79,20 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
 
     kubectl -n argo port-forward service/argo-server 2746:2746
 
+In your browser open: https://localhost:2746
+
+![Argo Workflow](/docs/ArgoWorkflow.png)
+
 ## Access ArgoCD UI
 
     kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+In your browser open: https://localhost:8080
+
+![Argo CD](/docs/ArgoCD.png)
 
 ## Create ArgoCD app
 
     kubectl port-forward svc/argocd-server -n argocd 8080:443
     argocd login localhost:8080 
     argocd app create cicd-automation-demo --repo https://github.com/majoferenc/demo-cicd-automation-app.git  --dest-server https://kubernetes.default.svc --dest-namespace default  --path chart
-

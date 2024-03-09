@@ -49,7 +49,7 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
     GIT_ACCESS_TOKEN='your-access-token'
     kubectl create secret generic git-credentials-secret --from-literal=.git-credentials="https://$GIT_ACCESS_TOKEN@github.com" -n argo
 
-https://majoferenc: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:github.com/
+
 ## Access Argo Workflow UI
 
     kubectl -n argo port-forward service/argo-server 2746:2746

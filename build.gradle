@@ -38,34 +38,3 @@ tasks.named('test') {
 processResources {
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
-
-/**
- * Google JIB Configuration
- */
-jib {
-	containerizingMode = 'packaged'
-	from {
-		image = (System.getenv('CI_JIB_BASEIMAGE') ?: project.property('applicationBaseImage')).toString()
-		auth {
-			username = (System.getenv('CI_REGISTRY_USER') ?: project.property('mavenRepoUser')).toString()
-			password = (System.getenv('CI_REGISTRY_PASSWORD') ?: project.property('mavenRepoPassword')).toString()
-		}
-	}
-
-	to {
-		image = String.format("%s/%s:%s",
-				(System.getenv('CI_REGISTRY') ?: project.property('registryName')).toString(),
-				(System.getenv('CI_IMAGE_IMAGE') ?: project.property('applicationName')).toString(),
-				(System.getenv('CI_IMAGE_TAG') ?: version).toString())
-		auth {
-			username = (System.getenv('CI_REGISTRY_USER') ?: project.property('mavenRepoUser')).toString()
-			password = (System.getenv('CI_REGISTRY_PASSWORD') ?: project.property('mavenRepoPassword')).toString()
-		}
-	}
-	outputPaths {
-		tar = String.format(System.getenv('CI_PROJECT_NAME') ? "build/%s-%s-%s.tar" : "build/%s-%s.tar",
-				(System.getenv('CI_PROJECT_NAME') ?: project.property('projectName')).toString(),
-				(System.getenv('CI_COMMIT_REF_SLUG') ?: version).toString(),
-				(System.getenv('CI_COMMIT_SHORT_SHA') ?: '').toString())
-	}
-}

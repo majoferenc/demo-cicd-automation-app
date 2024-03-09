@@ -17,9 +17,9 @@ spec:
         requests:
           storage: 1Gi
   volumes:
-    - name: docker-config
+    - name: dockerconfig
       secret:
-        secretName: registry-creds
+        secretName: config.json
   entrypoint: dag-target
   templates:
   - name: dag-target
@@ -32,8 +32,8 @@ spec:
         template: gradle-test
     - - name: docker-build
         template: docker-build
-    - - name: update-argocd-manifest
-        template: update-argocd-manifest
+    - - name: update-helm-version
+        template: update-helm-version
 
   - name: git-clone
     container:
@@ -60,9 +60,9 @@ spec:
         mountPath: /workspace
   - name: docker-build
     container:
-      image: moby/buildkit:v0.7.2-rootless
+      image: moby/buildkit:v0.13.0-rootless
       volumeMounts:
-      - name: docker-config
+      - name: dockerconfig
         mountPath: /.docker
       - name: repo-volume
         mountPath: /workspace
@@ -74,10 +74,27 @@ spec:
       command: ["buildctl-daemonless.sh"]
       args: ["build", "--frontend", "dockerfile.v0", "--local", "context=.", "--local", "dockerfile=.", "--output", "type=image,name=docker.io/marianferenc/argo-demo-app:latest,push=true"]
       workingDir: /workspace
-  - name: update-argocd-manifest
+  - name: update-helm-version
     container:
-      image: alpine/helm:3.6.3
-      command: ["helm", "template", "--set", "image.tag=latest", "/chart", "-n", "argo"]
+      image: alpine/git
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          set -x
+          # Fetch the Git hash value
+          GIT_HASH=$(git rev-parse --short HEAD)
+
+          # Update the values.yaml file with the Git hash
+          sed -i "s/image.tag:.*/image.tag: $GIT_HASH/" chart/values.yaml
+
+          # Commit the changes
+          git config --global user.email "workflow@argo.io"
+          git config --global user.name "Argo Workflow"
+          git add chart/values.yaml
+          git commit -m "Update image tag to Git hash: $GIT_HASH"
+
+          # Push the changes to the Git repository
+          git push origin main
       volumeMounts:
       - name: repo-volume
         mountPath: /workspace

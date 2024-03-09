@@ -28,8 +28,8 @@ spec:
         template: git-clone
     - - name: gradle-build
         template: gradle-build
-    - name: gradle-build
-      template: gradle-build
+      - name: gradle-test
+        template: gradle-test
     - - name: docker-build
         template: docker-build
     - - name: update-argocd-manifest
@@ -72,7 +72,7 @@ spec:
         - name: DOCKER_CONFIG
           value: /.docker
       command: ["buildctl-daemonless.sh"]
-      args: ["build", "--frontend", "dockerfile.v0", "--local", "context=.", "--local", "dockerfile=.", "--output", "type=image,name=docker.io/marianferenc/argo-demo-app:latest,push=true"]
+      args: ["build", "--frontend", "dockerfile.v0", "--local", "context=.", "--local", "dockerfile=Dockerfile", "--output", "type=image,name=docker.io/marianferenc/argo-demo-app:latest,push=true"]
       workingDir: /workspace
   - name: update-argocd-manifest
     container:

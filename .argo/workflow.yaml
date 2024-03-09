@@ -41,7 +41,17 @@ spec:
   - name: git-clone
     container:
       image: alpine/git
-      command: ["git", "clone", "https://github.com/majoferenc/demo-cicd-automation-app.git", "/workspace"]
+      command: [ "/bin/sh", "-c" ]
+      args:
+        - |
+          # Clone the repository using the credentials
+          git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace
+      env:
+        - name: GIT_REPO_BASE_PATH
+          valueFrom:
+            secretKeyRef:
+              name: git-credentials-secret
+              key: .git-credentials
       volumeMounts:
       - name: repo-volume
         mountPath: /workspace
@@ -74,29 +84,36 @@ spec:
           value: --oci-worker-no-process-sandbox
         - name: DOCKER_CONFIG
           value: /.docker
-      command: ["buildctl-daemonless.sh"]
-      args: ["build", "--frontend", "dockerfile.v0", "--local", "context=.", "--local", "dockerfile=.", "--output", "type=image,name=docker.io/marianferenc/argo-demo-app:latest,push=true"]
+      command: [ "/bin/sh", "-c" ]
+      args:
+        - |
+          set -x
+          git config --global --add safe.directory /workspace
+          export GIT_HASH=$(git rev-parse --short HEAD)
+          echo $GIT_HASH
+          buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true
       workingDir: /workspace
   - name: update-helm-version
     container:
       image: alpine/git
+      volumeMounts:
+        - name: repo-volume
+          mountPath: /workspace
       command: ["/bin/sh", "-c"]
       args:
         - |
           set -x
-          # Set up .git-credentials environment variable
-          export GIT_CREDENTIALS=/tmp/.git-credentials
-  
-          # Clone the repository using the credentials
-          git clone --config credential.helper='store --file=/tmp/.git-credentials' https://github.com/majoferenc/demo-cicd-automation-app.git
+          git config --global --add safe.directory /workspace
+          export GIT_HASH=$(git rev-parse --short HEAD)
+          echo $GIT_HASH
           
-          cd demo-cicd-automation-app
+          export YQ_VERSION=v4.40.7
+          export YQ_BINARY=yq_linux_amd64
+          wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY} -O yq
+          chmod +x ./yq
           
-          # Fetch the Git hash value
-          GIT_HASH=$(git rev-parse --short HEAD)
-
           # Update the values.yaml file with the Git hash
-          sed -i "s/image.tag:.*/image.tag: $GIT_HASH/" chart/values.yaml
+          ./yq e -i '.image.tag = env(GIT_HASH)' chart/values.yaml
 
           # Commit the changes
           git config --global user.email "workflow@argo.io"
@@ -106,12 +123,4 @@ spec:
 
           # Push the changes to the Git repository
           git push origin main
-      volumeMounts:
-      - name: git-credentials
-        mountPath: /root/.git-credentials
-        subPath: .git-credentials
-      env:
-      - name: GIT_ASKPASS
-        value: /bin/true
-      - name: GIT_TERMINAL_PROMPT
-        value: '0'
+      workingDir: /workspace

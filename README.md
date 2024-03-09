@@ -45,21 +45,25 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
     --docker-username=$REGISTRY_USER \
     --docker-password=$REGISTRY_PASSWORD \
     --docker-email=$REGISTRY_EMAIL \
-    --dry-run -o json | jq -r '.data.".dockerconfigjson"' | base64 --decode > $temp_dir/config.json
+    --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 --decode > $temp_dir/config.json
 
     kubectl create secret generic config.json --from-file=$temp_dir/config.json -n argo
     rm -rf $temp_dir
 
 ## Setup Github Credentials
 
-    GITHUB_ACCESS_TOKEN='your-access-token'
-    kubectl create secret generic git-credentials-secret --from-literal=.git-credentials='https://github.com/majoferenc:$GITHUB_ACCESS_TOKEN' -n argo
+    GIT_USERNAME='your-username'
+    GIT_ACCESS_TOKEN='your-access-token'
+    kubectl create secret generic git-credentials-secret --from-literal=.git-credentials='https://GIT_USERNAME:GIT_ACCESS_TOKEN@github.com' -n argo
 
-
+https://majoferenc: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:github.com/
 ## Access Argo Workflow UI
+
     kubectl -n argo port-forward service/argo-server 2746:2746
 
 ## Access ArgoCD UI
+
+    kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 ## Create ArgoCD app
 

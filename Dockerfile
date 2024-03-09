@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/java17:nonroot AS build
+FROM registry.access.redhat.com/ubi8/openjdk-17:1.19-1 AS build
 
 WORKDIR /app
 

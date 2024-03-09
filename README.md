@@ -20,12 +20,6 @@ https://argoproj.github.io/argo-events/quick_start/
     kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
     kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
 
-
-### Connect Argo Events with Argo Workflows
-
-    kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/latest/download/install.yaml
-
-
 ### Install Argo CD into the cluster
 https://argo-cd.readthedocs.io/en/stable/getting_started/
 
@@ -52,9 +46,8 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
 
 ## Setup Github Credentials
 
-    GIT_USERNAME='your-username'
     GIT_ACCESS_TOKEN='your-access-token'
-    kubectl create secret generic git-credentials-secret --from-literal=.git-credentials='https://GIT_USERNAME:GIT_ACCESS_TOKEN@github.com' -n argo
+    kubectl create secret generic git-credentials-secret --from-literal=.git-credentials="https://$GIT_ACCESS_TOKEN@github.com" -n argo
 
 https://majoferenc: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:github.com/
 ## Access Argo Workflow UI

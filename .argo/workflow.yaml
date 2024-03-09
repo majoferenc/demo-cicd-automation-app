@@ -121,7 +121,7 @@ spec:
           git commit -m "Update image tag to Git hash: $GIT_HASH"
 
           # Push the changes to the Git repository
-          git push $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git origin main
+          git push origin main
       env:
       - name: GIT_REPO_BASE_PATH
         valueFrom:

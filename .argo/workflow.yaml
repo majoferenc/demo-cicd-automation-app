@@ -20,6 +20,9 @@ spec:
     - name: dockerconfig
       secret:
         secretName: config.json
+    - name: git-credentials
+      secret:
+        secretName: git-credentials-secret
   entrypoint: dag-target
   templates:
   - name: dag-target
@@ -81,6 +84,14 @@ spec:
       args:
         - |
           set -x
+          # Set up .git-credentials environment variable
+          export GIT_CREDENTIALS=/tmp/.git-credentials
+  
+          # Clone the repository using the credentials
+          git clone --config credential.helper='store --file=/tmp/.git-credentials' https://github.com/majoferenc/demo-cicd-automation-app.git
+          
+          cd demo-cicd-automation-app
+          
           # Fetch the Git hash value
           GIT_HASH=$(git rev-parse --short HEAD)
 
@@ -96,5 +107,11 @@ spec:
           # Push the changes to the Git repository
           git push origin main
       volumeMounts:
-      - name: repo-volume
-        mountPath: /workspace
+      - name: git-credentials
+        mountPath: /root/.git-credentials
+        subPath: .git-credentials
+      env:
+      - name: GIT_ASKPASS
+        value: /bin/true
+      - name: GIT_TERMINAL_PROMPT
+        value: '0'

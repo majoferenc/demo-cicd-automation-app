@@ -96,14 +96,13 @@ spec:
   - name: update-helm-version
     container:
       image: alpine/git
-      volumeMounts:
-        - name: repo-volume
-          mountPath: /workspace
       command: ["/bin/sh", "-c"]
       args:
         - |
           set -x
-          git config --global --add safe.directory /workspace
+          git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git
+          cd demo-cicd-automation-app
+          
           export GIT_HASH=$(git rev-parse --short HEAD)
           echo $GIT_HASH
           
@@ -122,5 +121,10 @@ spec:
           git commit -m "Update image tag to Git hash: $GIT_HASH"
 
           # Push the changes to the Git repository
-          git push origin main
-      workingDir: /workspace
+          git push $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git origin main
+      env:
+      - name: GIT_REPO_BASE_PATH
+        valueFrom:
+          secretKeyRef:
+            name: git-credentials-secret
+            key: .git-credentials

@@ -6,12 +6,26 @@
 Install WSL https://learn.microsoft.com/en-us/windows/wsl/install
 
 ### Install CLI tools
-install argo, argocd, kubernetes-helm, kubectl, k9s, kubens, kubectx, docker, neovim, jq, mktemp, yq (yamlq), argocd-autopilot
+install CLI tools below:
+
+- `Argo`: Argo is a workflow management tool designed to execute complex workflows on Kubernetes.
+- `Argo CD`: Argo CD is a GitOps continuous delivery tool that ensures applications are configured correctly in Kubernetes clusters.
+- `Helm`: Helm is a package manager for Kubernetes that simplifies the process of managing and deploying applications.
+- `kubectl`: kubectl is the command-line interface for interacting with Kubernetes clusters.
+- `k9s`: k9s is a powerful Kubernetes CLI that provides a more intuitive way to manage and monitor Kubernetes clusters.
+- `kubens`: kubens is a utility that allows users to switch between Kubernetes namespaces quickly.
+- `kubectx`: kubectx is a tool for managing and switching between Kubernetes contexts with ease.
+- `Docker`: Docker is a platform for building, sharing, and running containerized applications.
+- `Neovim`: Neovim is a highly extensible text editor that aims to improve upon the functionality of Vim.
+- `jq`: jq is a lightweight and flexible command-line JSON processor that allows for easy manipulation and extraction of JSON data.
+- `mktemp`: mktemp is a command-line utility used to create temporary files securely.
+- `yq (yamlq)`: yq is a command-line YAML processor and JSON converter that provides a simple way to query and manipulate YAML documents.
+- `Argo CD Autopilot`: Argo CD Autopilot is an automated continuous deployment solution for Kubernetes applications, built on top of Argo CD.
 
 Via NixOS:
 
     curl -L https://nixos.org/nix/install | sh
-    nix-shell --packages argo argocd kubernetes-helm kubectl k9s kubectx docker neovim jq mktemp yq argocd-autopilot
+    nix-shell --packages curl wget git argo argocd kubernetes-helm kubectl k9s kubectx docker neovim jq mktemp yq argocd-autopilot
 
 To stop using installed packages, just type `exit` command and your Nix session will stop.
 Search for more packages on https://search.nixos.org to try them out.

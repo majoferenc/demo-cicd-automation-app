@@ -28,6 +28,8 @@ spec:
         template: git-clone
     - - name: gradle-build
         template: gradle-build
+    - name: gradle-build
+      template: gradle-build
     - - name: docker-build
         template: docker-build
     - - name: update-argocd-manifest
@@ -40,10 +42,18 @@ spec:
       volumeMounts:
       - name: repo-volume
         mountPath: /workspace
+  - name: gradle-test
+    container:
+      image: gradle:jdk17
+      command: ["gradle", "test", "-i", "--parallel"]
+      workingDir: /workspace
+      volumeMounts:
+        - name: repo-volume
+          mountPath: /workspace
   - name: gradle-build
     container:
       image: gradle:jdk17
-      command: ["gradle", "build"]
+      command: ["gradle", "bootJar", "-i", "--parallel"]
       workingDir: /workspace
       volumeMounts:
       - name: repo-volume

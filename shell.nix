@@ -21,5 +21,14 @@ pkgs.mkShell {
     pkgs.argocd-autopilot
     pkgs.go-task
   ];
+
+  shellHook = ''
+    alias ll='ls -lptrah'
+    alias k='kubectl'
+    alias kns='kubens'
+    alias kctx='kubectx'
+    alias kgp='kubectl get pods'
+    alias kgs='kubectl get svc'
+    '';
 }
 

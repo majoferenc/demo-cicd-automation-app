@@ -87,6 +87,7 @@ In your browser open: https://localhost:2746
 
 ## Access ArgoCD UI
 
+    task argocd_pass
     task argocdui
 
 In your browser open: https://localhost:8080
@@ -98,3 +99,7 @@ In your browser open: https://localhost:8080
     task argocdui
     argocd login localhost:8080 
     argocd app create cicd-automation-demo --repo https://github.com/majoferenc/demo-cicd-automation-app.git  --dest-server https://kubernetes.default.svc --dest-namespace default  --path chart
+
+## ArgoCD Notifications
+https://argocd-notifications.readthedocs.io/en/stable/
+

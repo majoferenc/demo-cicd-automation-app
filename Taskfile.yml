@@ -35,6 +35,9 @@ tasks:
   argowfl:
     cmds:
     - kubectl -n argo port-forward service/argo-server 2746:2746
+  argowfl_events_wip:
+    cmds:
+    - kubectl -n workflows port-forward svc/argo-argo-workflows-server 2746:2746
   argocd_pass:
     cmds:
     - kubectl get secret argocd-initial-admin-secret -n argocd -o json | jq -r '.data.password' | base64 --decode

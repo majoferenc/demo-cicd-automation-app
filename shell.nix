@@ -20,6 +20,7 @@ pkgs.mkShell {
     pkgs.yq
     pkgs.argocd-autopilot
     pkgs.go-task
+    pkgs.ngrok
   ];
 
   shellHook = ''

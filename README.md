@@ -21,18 +21,19 @@ install CLI tools below:
 - `mktemp`: mktemp is a command-line utility used to create temporary files securely.
 - `yq (yamlq)`: yq is a command-line YAML processor and JSON converter that provides a simple way to query and manipulate YAML documents.
 - `Argo CD Autopilot`: Argo CD Autopilot is an automated continuous deployment solution for Kubernetes applications, built on top of Argo CD.
+- `Taskfile`: Modern Mafile alternative for executing commands locally and remotely written in a popular yaml format.
 
 Via NixOS:
 
     curl -L https://nixos.org/nix/install | sh
-    nix-shell --packages curl wget git argo argocd kubernetes-helm kubectl k9s kubectx docker neovim jq mktemp yq argocd-autopilot
+    nix-shell
 
 To stop using installed packages, just type `exit` command and your Nix session will stop.
 Search for more packages on https://search.nixos.org to try them out.
 
 To free up Nix storage cache run:
 
-    nix-collect-garbage
+    task clear_nix
 
 ### Setup local k8s cluster
 - Install Rancher Desktop from https://rancherdesktop.io/
@@ -50,48 +51,35 @@ To work with local Rancher Desktop K8s cluster please execute following command:
 
 ### Install Argo Workflows into the cluster
 
-    kubectl create namespace argo
-    kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.5.5/quick-start-minimal.yaml
+    task install_argowfl
 
 ### Install Argo Events
 https://argoproj.github.io/argo-events/quick_start/
 
-    kubectl create namespace argo-events
-    kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
+    task install_argoevents
 
 ### Install Argo CD into the cluster
 https://argo-cd.readthedocs.io/en/stable/getting_started/
 
-    kubectl create namespace argocd
-    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    task install_argocd
 
 ## Setup Docker Hub credentials
 
-    REGISTRY_SERVER='https://index.docker.io/v1/'
-    REGISTRY_USER='your-username'
-    REGISTRY_PASSWORD='your-password'
-    REGISTRY_EMAIL='your-email'
+    export REGISTRY_SERVER='https://index.docker.io/v1/'
+    export REGISTRY_USER='your-username'
+    export REGISTRY_PASSWORD='your-password'
+    export REGISTRY_EMAIL='your-email'
 
-    temp_dir=$(mktemp -d)
-    kubectl create secret docker-registry registry-creds \
-    --docker-server=$REGISTRY_SERVER \
-    --docker-username=$REGISTRY_USER \
-    --docker-password=$REGISTRY_PASSWORD \
-    --docker-email=$REGISTRY_EMAIL \
-    --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 --decode > $temp_dir/config.json
-
-    kubectl create secret generic config.json --from-file=$temp_dir/config.json -n argo
-    rm -rf $temp_dir
+    task setup_docker_creds
 
 ## Setup Github Credentials
 
-    GIT_ACCESS_TOKEN='your-access-token'
-    kubectl create secret generic git-credentials-secret --from-literal=.git-credentials="https://$GIT_ACCESS_TOKEN@github.com" -n argo
-
+    export GIT_ACCESS_TOKEN='your-access-token'
+    task create_github_creds
 
 ## Access Argo Workflow UI
-
-    kubectl -n argo port-forward service/argo-server 2746:2746
+   
+    task argowfl
 
 In your browser open: https://localhost:2746
 
@@ -99,7 +87,7 @@ In your browser open: https://localhost:2746
 
 ## Access ArgoCD UI
 
-    kubectl port-forward svc/argocd-server -n argocd 8080:443
+    task argocdui
 
 In your browser open: https://localhost:8080
 
@@ -107,6 +95,6 @@ In your browser open: https://localhost:8080
 
 ## Create ArgoCD app
 
-    kubectl port-forward svc/argocd-server -n argocd 8080:443
+    task argocdui
     argocd login localhost:8080 
     argocd app create cicd-automation-demo --repo https://github.com/majoferenc/demo-cicd-automation-app.git  --dest-server https://kubernetes.default.svc --dest-namespace default  --path chart

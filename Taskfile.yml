@@ -1,0 +1,44 @@
+version: '3'
+
+tasks:
+  install_argowfl:
+    cmds:
+    - |
+      kubectl create namespace argo
+      kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.5.5/quick-start-minimal.yaml
+  install_argocd:
+    cmds:
+    - |
+      kubectl create namespace argocd
+      kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+  install_argoevents:
+    cmds:
+    - |
+      kubectl create namespace argo-events
+      kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
+  setup_docker_creds:
+    cmds:
+    - |
+      temp_dir=$(mktemp -d)
+      kubectl create secret docker-registry registry-creds \
+      --docker-server=$REGISTRY_SERVER \
+      --docker-username=$REGISTRY_USER \
+      --docker-password=$REGISTRY_PASSWORD \
+      --docker-email=$REGISTRY_EMAIL \
+      --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 --decode > $temp_dir/config.json
+
+      kubectl create secret generic config.json --from-file=$temp_dir/config.json -n argo
+      rm -rf $temp_dir
+  create_github_creds:
+    cmds:
+    - kubectl create secret generic git-credentials-secret --from-literal=.git-credentials="https://$GIT_ACCESS_TOKEN@github.com" -n argo
+  argowfl:
+    cmds:
+    - kubectl -n argo port-forward service/argo-server 2746:2746
+  argocdui:
+    cmds:
+    - kubectl port-forward svc/argocd-server -n argocd 8080:443
+  clear_nix:
+    cmds:
+    - nix-collect-garbage
+

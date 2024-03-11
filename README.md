@@ -1,4 +1,7 @@
 # Demo Argo Workflow & ArgoCD App
+This repository wants to achieve following CI/CD platform:
+
+![Target Schema](/docs/target_schema.png)
 
 ## Prerequisites
 

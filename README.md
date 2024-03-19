@@ -36,7 +36,7 @@ Via NixOS:
 To stop using installed packages, just type `exit` command and your Nix session will stop.
 Search for more packages on https://search.nixos.org to try them out.
 
-To free up Nix storage cache run:
+After the workshop to free up Nix storage:
 
     task clear_nix
 
@@ -86,6 +86,8 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
    
     task argowfl
 
+You can find and apply workflow config at .argo/workflow.yaml`
+
 In your browser open: https://localhost:2746
 
 ![Argo Workflow](/docs/ArgoWorkflow.png)
@@ -94,6 +96,8 @@ In your browser open: https://localhost:2746
 
     task argocd_pass
     task argocdui
+
+You can find and apply application config at .argo/application.yaml`
 
 In your browser open: https://localhost:8080
 
@@ -105,7 +109,7 @@ In your browser open: https://localhost:8080
     argocd login localhost:8080 
     argocd app create cicd-automation-demo --repo https://github.com/majoferenc/demo-cicd-automation-app.git  --dest-server https://kubernetes.default.svc --dest-namespace default  --path chart
 
-## Configure GitHub Webhook tunnel
+## Configure GitHub Webhook tunnel (To be checked)
 Create Free Ngrok account: https://ngrok.com
 
 Now obtain Ngrok Access Token: https://dashboard.ngrok.com/get-started/your-authtoken

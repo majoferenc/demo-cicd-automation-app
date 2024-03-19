@@ -40,7 +40,7 @@ After the workshop to free up Nix storage:
 
     task clear_nix
 
-### Setup local k8s cluster
+### Setup local k8s cluster (Only if you don't have existing one)
 - Install Rancher Desktop from https://rancherdesktop.io/
 - Enable Kubernetes cluster feature
   ![Rancher Desktop Enable K8s](/docs/RancherDesktopEnableK8s.png)
@@ -49,7 +49,7 @@ Windows Only:
 - Forward cluster to WSL via: Preferences -> WSL -> Integrations -> Ubuntu
   ![Rancher Desktop Forward K8s](/docs/RancherDesktopForwardK8s.png)
 
-### Activate Rancher K8s Cluster Context
+### Activate Rancher K8s Cluster Context (Only if you don't have existing one)
 To work with local Rancher Desktop K8s cluster please execute following command:
 
     kubectx rancher-desktop

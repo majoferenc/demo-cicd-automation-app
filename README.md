@@ -86,7 +86,7 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
    
     task argowfl
 
-You can find and apply workflow config at .argo/workflow.yaml`
+You can find and apply workflow config at `.argo/workflow.yaml`
 
 In your browser open: https://localhost:2746
 
@@ -97,7 +97,7 @@ In your browser open: https://localhost:2746
     task argocd_pass
     task argocdui
 
-You can find and apply application config at .argo/application.yaml`
+You can find and apply application config at `.argo/application.yaml`
 
 In your browser open: https://localhost:8080
 
@@ -118,7 +118,7 @@ Now obtain Ngrok Access Token: https://dashboard.ngrok.com/get-started/your-auth
     ngrok config add-authtoken $NGROK_ACC_TOKEN
     task webhook_tunnel
 
-Don't forget to inject generated Ngrok Public URL into github Argo Event Source and apply the changes.
+Don't forget to inject generated Ngrok Public URL into github Argo Event Source `.argo/git_event_source.yaml` and apply the changes.
 
     apiVersion: argoproj.io/v1alpha1
     kind: EventSource
@@ -147,6 +147,11 @@ Don't forget to inject generated Ngrok Public URL into github Argo Event Source 
           insecure: true
           active: true
           contentType: json
+
+After that you can apply the manifests:
+- `.argo/git_event_source.yaml`
+- `.argo/sensor.yaml`
+- `.argo/webhook-eventsource.svc.yaml`
 
 ## ArgoCD Notifications
 https://argocd-notifications.readthedocs.io/en/stable/

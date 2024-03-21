@@ -33,9 +33,9 @@ Via NixOS:
 
 On Ubuntu you can get this error:
 
-    error: getting status of '/home/default.nix': No such file or directory
+    error: getting status of '~/home/default.nix': No such file or directory
 
-To resolve that you need to create a `default.nix file` with following content:
+To resolve this issue, you need to create a `~/default.nix file` with following content:
 
 
     { pkgs ? import <nixpkgs> {} }:

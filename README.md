@@ -41,10 +41,10 @@ To resolve this issue, you need to create a `~/default.nix file` with following 
     { pkgs ? import <nixpkgs> {} }:
 
     pkgs.mkShell {
-        buildInputs = [ pkgs.curl ];
+        buildInputs = [];
     }
 
-
+Now to install all relevant tools you need to be in this repository directory, where is the file `shell.nix` located.
 After that you can continue with the installation.
 
     export NIXPKGS_ALLOW_UNFREE=1

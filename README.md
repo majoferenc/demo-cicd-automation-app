@@ -30,6 +30,23 @@ install CLI tools below:
 Via NixOS:
 
     curl -L https://nixos.org/nix/install | sh
+
+On Ubuntu you can get this error:
+
+    error: getting status of '/home/default.nix': No such file or directory
+
+To resolve that you need to create a `default.nix file` with following content:
+
+
+    { pkgs ? import <nixpkgs> {} }:
+
+    pkgs.mkShell {
+        buildInputs = [ pkgs.curl ];
+    }
+
+
+After that you can continue with the installation.
+
     export NIXPKGS_ALLOW_UNFREE=1
     nix-shell
 

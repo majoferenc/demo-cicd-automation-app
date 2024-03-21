@@ -24,7 +24,7 @@ install CLI tools below:
 - `mktemp`: mktemp is a command-line utility used to create temporary files securely.
 - `yq (yamlq)`: yq is a command-line YAML processor and JSON converter that provides a simple way to query and manipulate YAML documents.
 - `Argo CD Autopilot`: Argo CD Autopilot is an automated continuous deployment solution for Kubernetes applications, built on top of Argo CD.
-- `Taskfile`: Modern Mafile alternative for executing commands locally and remotely written in a popular yaml format.
+- `Taskfile`: Modern Makefile alternative for executing commands locally and remotely written in a popular yaml format.
 - `Ngrok`: A tool for creating secure tunnels to localhost, enabling public access to locally hosted services during development or testing.
 
 Via NixOS:

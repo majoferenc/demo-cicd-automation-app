@@ -15,7 +15,7 @@ To start with the installation don't forget to clone this repo first and navigat
     git clone https://github.com/majoferenc/demo-cicd-automation-app.git
     cd  demo-cicd-automation-app
 
-List of needed CLI tools:
+We will install following CLI tools:
 
 - `Argo`: Argo is a workflow management tool designed to execute complex workflows on Kubernetes.
 - `Argo CD`: Argo CD is a GitOps continuous delivery tool that ensures applications are configured correctly in Kubernetes clusters.

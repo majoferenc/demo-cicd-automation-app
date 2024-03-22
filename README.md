@@ -13,7 +13,7 @@ We can install them via NixOS configuration, which is already prepared in this r
 To start with the installation don't forget to clone this repo first and navigate inside it before starting the installation, otherwise the `shell.nix` file will be not recognized and the CLI tools will be not installed.
 
     git clone https://github.com/majoferenc/demo-cicd-automation-app.git
-    cd  demo-cicd-automation-app
+    cd demo-cicd-automation-app
 
 We will install following CLI tools:
 

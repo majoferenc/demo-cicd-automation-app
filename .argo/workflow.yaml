@@ -45,7 +45,7 @@ spec:
       args:
         - |
           # Clone the repository using the credentials
-          git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace
+          git clone $GIT_REPO_BASE_PATH/JKIPIKA/demo-cicd-automation-app.git /workspace
       env:
         - name: GIT_REPO_BASE_PATH
           valueFrom:
@@ -100,7 +100,7 @@ spec:
       args:
         - |
           set -x
-          git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git
+          git clone $GIT_REPO_BASE_PATH/JKIPIKA/demo-cicd-automation-app.git
           cd demo-cicd-automation-app
           
           export GIT_HASH=$(git rev-parse --short HEAD)

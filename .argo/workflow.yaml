@@ -91,7 +91,7 @@ spec:
           git config --global --add safe.directory /workspace
           export GIT_HASH=$(git rev-parse --short HEAD)
           echo $GIT_HASH
-          buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true
+          buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/jkipika/argo-demo-app:$GIT_HASH,push=true
       workingDir: /workspace
   - name: update-helm-version
     container:

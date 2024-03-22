@@ -8,8 +8,11 @@ This repository wants to achieve following CI/CD platform:
 ### Install WSL (Windows Only)
 Install WSL https://learn.microsoft.com/en-us/windows/wsl/install
 
-### Install CLI tools
-install CLI tools below:
+### CLI tools via NixOS
+We can install them via NixOS configuration, which is already prepared in this repository in a format of `shell.nix`.
+To start with the installation don't forget to clone this repo first and navigate inside it before starting the installation, otherwise the `shell.nix` file will be not recognized and the CLI tools will be not installed.
+
+List of needed CLI tools:
 
 - `Argo`: Argo is a workflow management tool designed to execute complex workflows on Kubernetes.
 - `Argo CD`: Argo CD is a GitOps continuous delivery tool that ensures applications are configured correctly in Kubernetes clusters.
@@ -26,27 +29,10 @@ install CLI tools below:
 - `Argo CD Autopilot`: Argo CD Autopilot is an automated continuous deployment solution for Kubernetes applications, built on top of Argo CD.
 - `Taskfile`: Modern Makefile alternative for executing commands locally and remotely written in a popular yaml format.
 - `Ngrok`: A tool for creating secure tunnels to localhost, enabling public access to locally hosted services during development or testing.
-
+- 
 Via NixOS:
 
     curl -L https://nixos.org/nix/install | sh
-
-On Ubuntu you can get this error:
-
-    error: getting status of '~/home/default.nix': No such file or directory
-
-To resolve this issue, you need to create a `~/default.nix file` with following content:
-
-
-    { pkgs ? import <nixpkgs> {} }:
-
-    pkgs.mkShell {
-        buildInputs = [];
-    }
-
-Now to install all relevant tools you need to be in this repository directory, where is the file `shell.nix` located.
-After that you can continue with the installation.
-
     export NIXPKGS_ALLOW_UNFREE=1
     nix-shell
 

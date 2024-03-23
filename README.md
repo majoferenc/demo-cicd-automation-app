@@ -60,6 +60,22 @@ To work with local Rancher Desktop K8s cluster please execute following command:
 
     kubectx rancher-desktop
 
+### Troubleshoot Rancher K8s connection (WSL only)
+
+When working with Rancher Desktop in WSL, if kubectx fails to find the context for Rancher Desktop or kubectl commands are timeouting, you may need to manually copy the configuration from the Windows user's `.kube/config` file (typically located at `C:\Users\[user]\.kube\config`) to the `.kube/config` file for the WSL user.
+
+You'll need to copy the cluster configuration, user configuration, and context configuration for Rancher Desktop. Since the IP address of the cluster might change upon Rancher Desktop restart, you may need to update the server address in the `.kube/context` file after each environment restart.
+
+Example configuration snippet:
+
+    clusters:
+      - name: rancher-desktop
+        cluster:
+          server: https://172.19.211.113:6443
+          
+Remember to update the server address (https://172.19.211.113:6443 in this example) as needed.
+
+
 ### Install Argo Workflows into the cluster
 
     task install_argowfl
@@ -92,16 +108,45 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
    
     task argowfl
 
-You can find and apply workflow config at `.argo/workflow.yaml`
+## Forking and Configuring Repository for Personal Use
+To use this repository for your own purposes, you'll need to fork it and make several changes to configure it for your own GitHub repository and DockerHub username.
+
+Fork the Repository: Fork this repository to your own GitHub account.
+
+Update Workflow YAML:
+
+In workflow.yaml, change the GitHub repository URL and DockerHub username:
+
+Line 48: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace -> Change majoferenc to your GitHub username.
+
+Line 108: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username.
+
+Line 94: buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true -> Change marianferenc to your DockerHub username.
+
+Update Application Configuration:
+
+In application.yaml, update the repository URL:
+
+Line 13: repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username (ensure case sensitivity).
+
+Update Chart Values:
+
+In chart/values.yaml, update the DockerHub repository:
+
+Line 7: repository: docker.io/marianferenc/argo-demo-app -> Change marianferenc to your DockerHub username.
+
+After making these changes, your forked repository should be configured for your personal use with updated GitHub and DockerHub references.
+
+## Deploying Argo Workflow CI pipeline
+Don't forget to port forward first via `task argowfl` if the forwarding process is not running already.
 
 In your browser open: https://localhost:2746
+
+You can find and apply workflow config at `.argo/workflow.yaml`
 
 ![Argo Workflow](/docs/ArgoWorkflow.png)
 
 ## Access ArgoCD UI
-
-    task argocd_pass
-    task argocdui
 
 You can find and apply application config at `.argo/application.yaml`
 
@@ -110,8 +155,17 @@ In your browser open: https://localhost:8080
 ![Argo CD](/docs/ArgoCD.png)
 
 ## Create ArgoCD app
+Port forward the ArgoCD service to be able to access the UI:
 
     task argocdui
+
+ArgoCD credentials:
+username: admin
+password: output of argocd_pass
+
+## Deploy ArgoCD deployment configuration
+Don't forget to port forward first via `task argocdui` if the forwarding process is not running already.
+
     argocd login localhost:8080 
     argocd app create cicd-automation-demo --repo https://github.com/majoferenc/demo-cicd-automation-app.git  --dest-server https://kubernetes.default.svc --dest-namespace default  --path chart
 

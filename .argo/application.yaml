@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     path: chart
-    repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git
+    repoURL: https://github.com/ivanbernat/demo-cicd-automation-app.git
     targetRevision: main
   syncPolicy:
     automated:

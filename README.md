@@ -93,7 +93,7 @@ After the workshop to free up Nix storage:
 Windows Only:
 - Forward cluster to WSL via: Preferences -> WSL -> Integrations -> Ubuntu
   ![Rancher Desktop Forward K8s](/docs/RancherDesktopForwardK8s.png)
-- Enable networking tunnel
+- Enable networking tunnel (You need to have latest Rancher Desktop install for this feature to work properly)
   ![Rancher Desktop Networking Tunnel](/docs/RancherNetworkTunnel.png)
 
 ### Activate Rancher K8s Cluster Context (Only if you don't have existing one)

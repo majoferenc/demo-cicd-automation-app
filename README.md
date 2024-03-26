@@ -64,8 +64,12 @@ We will install following CLI tools:
 - 
 Via NixOS:
 
-    curl -L https://nixos.org/nix/install | sh
     export NIXPKGS_ALLOW_UNFREE=1
+    curl -L https://nixos.org/nix/install | sh
+
+During the Nix installation you will need to follow on screeen instructions to complete the setup.
+After that you can run Nix shell:
+
     nix-shell
 
 To stop using installed packages, just type `exit` command and your Nix session will stop.
@@ -83,6 +87,8 @@ After the workshop to free up Nix storage:
 Windows Only:
 - Forward cluster to WSL via: Preferences -> WSL -> Integrations -> Ubuntu
   ![Rancher Desktop Forward K8s](/docs/RancherDesktopForwardK8s.png)
+- Enable networking tunnel
+  ![Rancher Desktop Networking Tunnel](/docs/RancherNetworkTunnel.png)
 
 ### Activate Rancher K8s Cluster Context (Only if you don't have existing one)
 To work with local Rancher Desktop K8s cluster please execute following command:
@@ -149,6 +155,14 @@ You can find and apply workflow config at `.argo/workflow.yaml`
 ## Access ArgoCD UI
 
 You can find and apply application config at `.argo/application.yaml`
+
+After that forward the ArgoCD to your localhost via:
+
+    task argocdui
+
+ArgoCD credentials:
+username: admin
+password: output of argocd_pass
 
 In your browser open: https://localhost:8080
 

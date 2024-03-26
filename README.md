@@ -72,6 +72,12 @@ After that you can run Nix shell:
 
     nix-shell
 
+Don't forget that every time you want to active nix shell and work with task commands in this repo you need to execute following:
+
+    cd demo-cicd-automation-app
+    export NIXPKGS_ALLOW_UNFREE=1
+    nix-shell
+
 To stop using installed packages, just type `exit` command and your Nix session will stop.
 Search for more packages on https://search.nixos.org to try them out.
 

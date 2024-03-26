@@ -100,9 +100,9 @@ Example configuration snippet:
     clusters:
       - name: rancher-desktop
         cluster:
-          server: https://172.19.211.113:6443
+          server: https://127.0.0.1:6443
           
-Remember to update the server address (https://172.19.211.113:6443 in this example) as needed.
+Remember to update the server address to https://127.0.0.1:6443.
 
 
 ### Install Argo Workflows into the cluster

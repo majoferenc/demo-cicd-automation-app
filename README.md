@@ -8,11 +8,40 @@ This repository wants to achieve following CI/CD platform:
 ### Install WSL (Windows Only)
 Install WSL https://learn.microsoft.com/en-us/windows/wsl/install
 
+## Forking and Configuring Repository for Personal Use
+To use this repository for your own purposes, you'll need to fork it and make several changes to configure it for your own GitHub repository and DockerHub username.
+
+Fork the Repository: Fork this repository to your own GitHub account.
+
+Update Workflow YAML:
+
+In workflow.yaml, change the GitHub repository URL and DockerHub username:
+
+Line 48: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace -> Change majoferenc to your GitHub username.
+
+Line 108: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username.
+
+Line 94: buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true -> Change marianferenc to your DockerHub username.
+
+Update Application Configuration:
+
+In application.yaml, update the repository URL:
+
+Line 13: repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username (ensure case sensitivity).
+
+Update Chart Values:
+
+In chart/values.yaml, update the DockerHub repository:
+
+Line 7: repository: docker.io/marianferenc/argo-demo-app -> Change marianferenc to your DockerHub username.
+
+After making these changes, your forked repository should be configured for your personal use with updated GitHub and DockerHub references.
+
 ### CLI tools via NixOS
 We can install them via NixOS configuration, which is already prepared in this repository in a format of `shell.nix`.
 To start with the installation don't forget to clone this repo first and navigate inside it before starting the installation, otherwise the `shell.nix` file will be not recognized and the CLI tools will be not installed.
 
-    git clone https://github.com/majoferenc/demo-cicd-automation-app.git
+    git clone https://github.com/<your-username>/demo-cicd-automation-app.git
     cd demo-cicd-automation-app
 
 We will install following CLI tools:
@@ -71,9 +100,9 @@ Example configuration snippet:
     clusters:
       - name: rancher-desktop
         cluster:
-          server: https://172.19.211.113:6443
+          server: https://127.0.0.1:6443
           
-Remember to update the server address (https://172.19.211.113:6443 in this example) as needed.
+Remember to update the server address to https://127.0.0.1:6443.
 
 
 ### Install Argo Workflows into the cluster
@@ -107,35 +136,6 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
 ## Access Argo Workflow UI
    
     task argowfl
-
-## Forking and Configuring Repository for Personal Use
-To use this repository for your own purposes, you'll need to fork it and make several changes to configure it for your own GitHub repository and DockerHub username.
-
-Fork the Repository: Fork this repository to your own GitHub account.
-
-Update Workflow YAML:
-
-In workflow.yaml, change the GitHub repository URL and DockerHub username:
-
-Line 48: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace -> Change majoferenc to your GitHub username.
-
-Line 108: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username.
-
-Line 94: buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true -> Change marianferenc to your DockerHub username.
-
-Update Application Configuration:
-
-In application.yaml, update the repository URL:
-
-Line 13: repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username (ensure case sensitivity).
-
-Update Chart Values:
-
-In chart/values.yaml, update the DockerHub repository:
-
-Line 7: repository: docker.io/marianferenc/argo-demo-app -> Change marianferenc to your DockerHub username.
-
-After making these changes, your forked repository should be configured for your personal use with updated GitHub and DockerHub references.
 
 ## Deploying Argo Workflow CI pipeline
 Don't forget to port forward first via `task argowfl` if the forwarding process is not running already.

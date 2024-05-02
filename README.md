@@ -19,9 +19,9 @@ In workflow.yaml, change the GitHub repository URL and DockerHub username:
 
 Line 48: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace -> Change majoferenc to your GitHub username.
 
-Line 108: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username.
-
 Line 94: buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true -> Change marianferenc to your DockerHub username.
+
+Line 103: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username.
 
 Update Application Configuration:
 

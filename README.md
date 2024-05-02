@@ -15,7 +15,7 @@ Fork the Repository: Fork this repository to your own GitHub account.
 
 Update Workflow YAML:
 
-In workflow.yaml, change the GitHub repository URL and DockerHub username:
+In .argo/workflow.yaml, change the GitHub repository URL and DockerHub username:
 
 Line 48: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace -> Change majoferenc to your GitHub username.
 
@@ -25,7 +25,7 @@ Line 103: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git 
 
 Update Application Configuration:
 
-In application.yaml, update the repository URL:
+In .argo/application.yaml, update the repository URL:
 
 Line 13: repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username (ensure case sensitivity).
 

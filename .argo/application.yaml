@@ -3,6 +3,13 @@ kind: Application
 metadata:
   name: cicd-automation-demo
   namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: deployments-notification
+    notifications.argoproj.io/subscribe.on-deployed.slack: deployments-notification
+    notifications.argoproj.io/subscribe.on-sync-failed.slack: deployments-notification
+    notifications.argoproj.io/subscribe.on-health-degraded.slack: deployments-notification
+    notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: deployments-notification
+    notifications.argoproj.io/subscribe.on-sync-status-running.slack: deployments-notification
 spec:
   destination:
     namespace: default

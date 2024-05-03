@@ -27,7 +27,7 @@ Update Application Configuration:
 
 In .argo/application.yaml, update the repository URL:
 
-Line 13: repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username (ensure case sensitivity).
+Line 20: repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username (ensure case sensitivity).
 
 Update Chart Values:
 

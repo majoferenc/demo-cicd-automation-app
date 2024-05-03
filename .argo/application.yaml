@@ -9,6 +9,7 @@ metadata:
     notifications.argoproj.io/subscribe.on-sync-failed.slack: deployments-notification
     notifications.argoproj.io/subscribe.on-health-degraded.slack: deployments-notification
     notifications.argoproj.io/subscribe.on-sync-status-unknown.slack: deployments-notification
+    notifications.argoproj.io/subscribe.on-sync-status-running.slack: deployments-notification
 spec:
   destination:
     namespace: default

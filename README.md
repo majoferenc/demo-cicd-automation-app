@@ -194,7 +194,7 @@ Create Free Ngrok account: https://ngrok.com
 
 Now obtain Ngrok Access Token: https://dashboard.ngrok.com/get-started/your-authtoken
 
-    export NGRON_ACC_TOKEN=<your-token>
+    export NGROK_ACC_TOKEN=<your-token>
     ngrok config add-authtoken $NGROK_ACC_TOKEN
     task webhook_tunnel
 

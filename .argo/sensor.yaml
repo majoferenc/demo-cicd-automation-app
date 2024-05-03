@@ -84,7 +84,7 @@ spec:
                     args:
                       - |
                         # Clone the repository using the credentials
-                        git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace
+                        git clone $GIT_REPO_BASE_PATH/JKIPIKA/demo-cicd-automation-app.git /workspace
                     env:
                       - name: GIT_REPO_BASE_PATH
                         valueFrom:
@@ -130,7 +130,7 @@ spec:
                         git config --global --add safe.directory /workspace
                         export GIT_HASH=$(git rev-parse --short HEAD)
                         echo $GIT_HASH
-                        buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true
+                        buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/jkipika/argo-demo-app:$GIT_HASH,push=true
                     workingDir: /workspace
                 - name: update-helm-version
                   container:
@@ -139,7 +139,7 @@ spec:
                     args:
                       - |
                         set -x
-                        git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git
+                        git clone $GIT_REPO_BASE_PATH/JKIPIKA/demo-cicd-automation-app.git
                         cd demo-cicd-automation-app
 
                         export GIT_HASH=$(git rev-parse --short HEAD)

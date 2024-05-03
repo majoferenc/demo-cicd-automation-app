@@ -11,7 +11,7 @@ spec:
   source:
     path: chart
     repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git
-    targetRevision: mafin
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true

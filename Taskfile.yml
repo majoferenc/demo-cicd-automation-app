@@ -46,7 +46,7 @@ tasks:
     - kubectl port-forward svc/argocd-server -n argocd 8080:443
   webhook_tunnel:
     cmds:
-    - ngrok tcp 12000
+    - ngrok http 12000 --scheme http,https
   clear_nix:
     cmds:
     - nix-collect-garbage

@@ -15,25 +15,36 @@ Fork the Repository: Fork this repository to your own GitHub account.
 
 Update Workflow YAML:
 
-In workflow.yaml, change the GitHub repository URL and DockerHub username:
+In .argo/workflow.yaml, change the GitHub repository URL and DockerHub username:
 
-Line 48: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace -> Change majoferenc to your GitHub username.
+Line 48: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace` -> Change `majoferenc` to your GitHub username.
 
-Line 108: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username.
+Line 94: `buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true` -> Change `marianferenc` to your DockerHub username.
 
-Line 94: buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true -> Change marianferenc to your DockerHub username.
+Line 103: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username.
 
 Update Application Configuration:
 
-In application.yaml, update the repository URL:
+In `.argo/application.yaml`, update the repository URL:
 
-Line 13: repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username (ensure case sensitivity).
+Line 13: `repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
 
 Update Chart Values:
 
-In chart/values.yaml, update the DockerHub repository:
+In `chart/values.yaml`, update the DockerHub repository:
 
-Line 7: repository: docker.io/marianferenc/argo-demo-app -> Change marianferenc to your DockerHub username.
+Line 7: `repository: docker.io/marianferenc/argo-demo-app` -> Change `marianferenc` to your DockerHub username.
+
+Update sensor configuration for events and webhooks:
+
+In `.argo/sensor.yaml`, update the repository URL:
+
+Line 87: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
+
+Line 133: `buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true` -> Change `marianferenc` to your DockerHub username.
+
+Line 142: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
+
 
 After making these changes, your forked repository should be configured for your personal use with updated GitHub and DockerHub references.
 
@@ -64,7 +75,17 @@ We will install following CLI tools:
 - 
 Via NixOS:
 
+    export NIXPKGS_ALLOW_UNFREE=1
     curl -L https://nixos.org/nix/install | sh
+
+During the Nix installation you will need to follow on screeen instructions to complete the setup.
+After that you can run Nix shell:
+
+    nix-shell
+
+Don't forget that every time you want to active nix shell and work with task commands in this repo you need to execute following:
+
+    cd demo-cicd-automation-app
     export NIXPKGS_ALLOW_UNFREE=1
     nix-shell
 
@@ -83,6 +104,8 @@ After the workshop to free up Nix storage:
 Windows Only:
 - Forward cluster to WSL via: Preferences -> WSL -> Integrations -> Ubuntu
   ![Rancher Desktop Forward K8s](/docs/RancherDesktopForwardK8s.png)
+- Enable networking tunnel (You need to have latest Rancher Desktop install for this feature to work properly)
+  ![Rancher Desktop Networking Tunnel](/docs/RancherNetworkTunnel.png)
 
 ### Activate Rancher K8s Cluster Context (Only if you don't have existing one)
 To work with local Rancher Desktop K8s cluster please execute following command:
@@ -150,6 +173,14 @@ You can find and apply workflow config at `.argo/workflow.yaml`
 
 You can find and apply application config at `.argo/application.yaml`
 
+After that forward the ArgoCD to your localhost via:
+
+    task argocdui
+
+ArgoCD credentials:
+username: admin
+password: output of argocd_pass
+
 In your browser open: https://localhost:8080
 
 ![Argo CD](/docs/ArgoCD.png)
@@ -174,7 +205,7 @@ Create Free Ngrok account: https://ngrok.com
 
 Now obtain Ngrok Access Token: https://dashboard.ngrok.com/get-started/your-authtoken
 
-    export NGRON_ACC_TOKEN=<your-token>
+    export NGROK_ACC_TOKEN=<your-token>
     ngrok config add-authtoken $NGROK_ACC_TOKEN
     task webhook_tunnel
 

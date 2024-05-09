@@ -5,7 +5,7 @@ metadata:
  name: github-access
 type: Opaque
 data:
-token: <git token base64>
+  token: <git token base64>
 ---
 # Info on GitHub Webhook: https://developer.github.com/v3/repos/hooks/#create-a-hook
 apiVersion: argoproj.io/v1alpha1

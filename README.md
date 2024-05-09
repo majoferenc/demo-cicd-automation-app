@@ -246,6 +246,7 @@ After that you can apply the manifests:
 - `.argo/git_event_source.yaml`
 - `.argo/sensor.yaml`
 - `.argo/webhook-eventsource.svc.yaml`
+- `.argo/eventbus.yaml`
 
 ## ArgoCD Notifications
 https://argocd-notifications.readthedocs.io/en/stable/

@@ -30,6 +30,16 @@ spec:
             type: string
             value:
               - master
+            # For push events on main/master branches
+          - path: headers.X-Github-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/master
+              - refs/heads/main
   triggers:
     - template:
         name: github-workflow-trigger

@@ -17,23 +17,34 @@ Update Workflow YAML:
 
 In .argo/workflow.yaml, change the GitHub repository URL and DockerHub username:
 
-Line 48: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace -> Change majoferenc to your GitHub username.
+Line 48: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace` -> Change `majoferenc` to your GitHub username.
 
-Line 94: buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true -> Change marianferenc to your DockerHub username.
+Line 94: `buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true` -> Change `marianferenc` to your DockerHub username.
 
-Line 103: git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username.
+Line 103: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username.
 
 Update Application Configuration:
 
-In .argo/application.yaml, update the repository URL:
+In `.argo/application.yaml`, update the repository URL:
 
-Line 13: repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git -> Change majoferenc to your GitHub username (ensure case sensitivity).
+Line 13: `repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
 
 Update Chart Values:
 
-In chart/values.yaml, update the DockerHub repository:
+In `chart/values.yaml`, update the DockerHub repository:
 
-Line 7: repository: docker.io/marianferenc/argo-demo-app -> Change marianferenc to your DockerHub username.
+Line 7: `repository: docker.io/marianferenc/argo-demo-ap`p -> Change `marianferenc` to your DockerHub username.
+
+Update sensor configuration for events and webhooks:
+
+In `.argo/sensor.yaml`, update the repository URL:
+
+Line 87: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
+
+Line 133: `buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true` -> Change `marianferenc` to your DockerHub username.
+
+Line 142: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
+
 
 After making these changes, your forked repository should be configured for your personal use with updated GitHub and DockerHub references.
 

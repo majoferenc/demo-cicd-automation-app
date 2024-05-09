@@ -242,11 +242,16 @@ Don't forget to inject generated Ngrok Public URL into github Argo Event Source 
           active: true
           contentType: json
 
+Create GitHub Webhook:
+![GitHub Webhook](/docs/github-webhook-config.png)
+
 After that you can apply the manifests:
 - `.argo/git_event_source.yaml`
 - `.argo/sensor.yaml`
 - `.argo/webhook-eventsource.svc.yaml`
 - `.argo/eventbus.yaml`
+
+Try to commit new changes into your main branch.
 
 ## ArgoCD Notifications
 https://argocd-notifications.readthedocs.io/en/stable/

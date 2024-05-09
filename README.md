@@ -33,7 +33,7 @@ Update Chart Values:
 
 In `chart/values.yaml`, update the DockerHub repository:
 
-Line 7: `repository: docker.io/marianferenc/argo-demo-ap`p -> Change `marianferenc` to your DockerHub username.
+Line 7: `repository: docker.io/marianferenc/argo-demo-app` -> Change `marianferenc` to your DockerHub username.
 
 Update sensor configuration for events and webhooks:
 

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: argo-server-nodeport
+  namespace: argo
+spec:
+  ports:
+  - name: web
+    port: 2746
+    protocol: TCP
+    targetPort: 2746
+    nodePort: 32009
+  selector:
+    app: argo-server
+  sessionAffinity: None
+  type: NodePort

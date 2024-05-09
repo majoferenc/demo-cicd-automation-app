@@ -14,22 +14,12 @@ spec:
           - path: headers.X-Github-Event
             type: string
             value:
-              - pull_request
-          - path: body.action
+              - push
+          - path: body.ref
             type: string
             value:
-              - opened
-              - edited
-              - reopened
-              - synchronize
-          - path: body.pull_request.state
-            type: string
-            value:
-              - open
-          - path: body.pull_request.base.ref
-            type: string
-            value:
-              - master
+              - refs/heads/master
+              - refs/heads/main
   triggers:
     - template:
         name: github-workflow-trigger

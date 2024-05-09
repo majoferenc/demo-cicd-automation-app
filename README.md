@@ -254,7 +254,13 @@ After that you can apply the manifests:
 Try to commit new changes into your main branch.
 
 ## ArgoCD Notifications
-https://argocd-notifications.readthedocs.io/en/stable/
+Replace default configmap config `argocd-notifications-cm` in `argocd` namespace with content of:
+- `.argo/argocd-notifications-cm.yaml`
+
+Create Slack Application
+
+Copy Slack Token into secret `argocd-notifications-secret` as shown in file
+- `argocd-notifications-secret.yaml`
 
 ![Slack Notifications](/docs/Slack-Argo-Notifications.png)
 

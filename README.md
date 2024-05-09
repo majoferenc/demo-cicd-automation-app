@@ -201,6 +201,9 @@ Don't forget to port forward first via `task argocdui` if the forwarding process
     argocd app create cicd-automation-demo --repo https://github.com/majoferenc/demo-cicd-automation-app.git  --dest-server https://kubernetes.default.svc --dest-namespace default  --path chart
 
 ## Configure GitHub Webhook tunnel (To be checked)
+
+![Target Schema](/docs/argo-events-diagram.png)
+
 Create Free Ngrok account: https://ngrok.com
 
 Now obtain Ngrok Access Token: https://dashboard.ngrok.com/get-started/your-authtoken

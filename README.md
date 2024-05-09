@@ -250,3 +250,6 @@ After that you can apply the manifests:
 ## ArgoCD Notifications
 https://argocd-notifications.readthedocs.io/en/stable/
 
+![Slack Notifications](/docs/Slack-Argo-Notifications.png)
+
+

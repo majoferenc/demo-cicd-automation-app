@@ -14,26 +14,6 @@ spec:
           - path: headers.X-Github-Event
             type: string
             value:
-              - pull_request
-          - path: body.action
-            type: string
-            value:
-              - opened
-              - edited
-              - reopened
-              - synchronize
-          - path: body.pull_request.state
-            type: string
-            value:
-              - open
-          - path: body.pull_request.base.ref
-            type: string
-            value:
-              - master
-            # For push events on main/master branches
-          - path: headers.X-Github-Event
-            type: string
-            value:
               - push
           - path: body.ref
             type: string

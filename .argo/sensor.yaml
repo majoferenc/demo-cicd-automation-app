@@ -8,7 +8,7 @@ spec:
   dependencies:
     - name: github
       eventSourceName: github
-      eventName: argo=combined-app
+      eventName: argo-combined-app
   triggers:
     - template:
         name: github-workflow-trigger

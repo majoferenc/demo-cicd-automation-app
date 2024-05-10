@@ -12,8 +12,11 @@ spec:
   triggers:
     - template:
         name: github-workflow-trigger
-        k8s:
-          operation: create
+        argoWorkflow:
+          group: argoproj.io
+          version: v1alpha1
+          resource: workflows
+          operation: submit
           source:
             resource:
               apiVersion: argoproj.io/v1alpha1

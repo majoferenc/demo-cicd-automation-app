@@ -6,20 +6,9 @@ spec:
   template:
     serviceAccountName: operate-workflow-sa
   dependencies:
-    - name: test-dep
+    - name: github
       eventSourceName: github
-      eventName: example
-      filters:
-        data:
-          - path: headers.X-Github-Event
-            type: string
-            value:
-              - push
-          - path: body.ref
-            type: string
-            value:
-              - refs/heads/master
-              - refs/heads/main
+      eventName: argo=combined-app
   triggers:
     - template:
         name: github-workflow-trigger

@@ -162,13 +162,13 @@ The Argo Workflow UI can be accessed in two possible ways:
 
 Either you can create the `NodePort` service to make the Argo Workflow UI available permanently on your machine by applying the configuration file:
     
-    `kubectl create -f .argo/argo-nodeport-svc.yaml`
+    kubectl create -f .argo/argo-nodeport-svc.yaml
 
 After applying the resource, then the Argo Workflow UI will be available on the specified `NodePort`: https://localhost:32009
 
 Or you can start the port-forward task, to make Argo Workflow UI available temporarily: 
    
-    `task argowfl`
+    task argowfl
 
 Then the Argo Workflow UI is accessible at https://localhost:2746
 
@@ -191,13 +191,13 @@ The ArgoCD UI can be accessed in two possible ways:
 
 Either you can create the `NodePort` service to make the ArgoCD UI available permanently on your machine by applying the configuration file:
     
-    `kubectl create -f .argo/argocd-nodeport-svc.yaml`
+    kubectl create -f .argo/argocd-nodeport-svc.yaml
 
 After applying the resource, then the ArgoCD UI will be available on the specified `NodePort`: https://localhost:32008
 
 Or you can start the port-forward task, to make ArgoCD UI available temporarily: 
    
-    `task argocdui`
+    task argocdui
 
 Then the ArgoCD UI is accessible at https://localhost:8080
 

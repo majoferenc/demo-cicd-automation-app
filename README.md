@@ -1,4 +1,4 @@
-### testing events
+### testing events vol.2
 # Demo Argo Workflow & ArgoCD App
 This repository wants to achieve following CI/CD platform:
 

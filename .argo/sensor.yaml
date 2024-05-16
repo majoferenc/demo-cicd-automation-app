@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
   name: github
+  namespace: argo
 spec:
   template:
     serviceAccountName: operate-workflow-sa

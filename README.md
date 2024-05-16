@@ -157,13 +157,27 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
     task create_github_creds
 
 ## Access Argo Workflow UI
+
+The Argo Workflow UI can be accessed in two possible ways:
+
+Either you can create the `NodePort` service to make the Argo Workflow UI available permanently on your machine by applying the configuration file:
+    
+    kubectl create -f .argo/argo-nodeport-svc.yaml
+
+After applying the resource, then the Argo Workflow UI will be available on the specified `NodePort`: https://localhost:32009
+
+Or you can start the port-forward task, to make Argo Workflow UI available temporarily: 
    
     task argowfl
 
-## Deploying Argo Workflow CI pipeline
-Don't forget to port forward first via `task argowfl` if the forwarding process is not running already.
+Then the Argo Workflow UI is accessible at https://localhost:2746
 
-In your browser open: https://localhost:2746
+## Deploying Argo Workflow CI pipeline
+Accessing Argo Workflow depends on your previous configuration.
+
+If you use port-forward option, access the UI at https://localhost:2746
+
+If you use NodePort service, access the UI at https://localhost:32009
 
 You can find and apply workflow config at `.argo/workflow.yaml`
 
@@ -173,9 +187,21 @@ You can find and apply workflow config at `.argo/workflow.yaml`
 
 You can find and apply application config at `.argo/application.yaml`
 
-After that forward the ArgoCD to your localhost via:
+The ArgoCD UI can be accessed in two possible ways:
 
+Either you can create the `NodePort` service to make the ArgoCD UI available permanently on your machine by applying the configuration file:
+    
+    kubectl create -f .argo/argocd-nodeport-svc.yaml
+
+After applying the resource, then the ArgoCD UI will be available on the specified `NodePort`: https://localhost:32008
+
+Or you can start the port-forward task, to make ArgoCD UI available temporarily: 
+   
     task argocdui
+
+Then the ArgoCD UI is accessible at https://localhost:8080
+
+# Login credentials:
 
 ArgoCD credentials:
 username: admin
@@ -186,13 +212,8 @@ In your browser open: https://localhost:8080
 ![Argo CD](/docs/ArgoCD.png)
 
 ## Create ArgoCD app
-Port forward the ArgoCD service to be able to access the UI:
 
-    task argocdui
-
-ArgoCD credentials:
-username: admin
-password: output of argocd_pass
+To view or create the ArgoCD application, access the ArgoCD UI. Follow previous section (`Access ArgoCD UI`)  if necessary.
 
 ## Deploy ArgoCD deployment configuration
 Don't forget to port forward first via `task argocdui` if the forwarding process is not running already.

@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-notifications-cm
+  namespace: argocd
+data:
+  defaultTriggers: |
+    - on-deployed
+    - on-health-degraded
+    - on-sync-failed
+    - on-sync-running
+    - on-sync-status-unknown
+    - on-sync-succeeded
+  service.slack: |
+    token: $slack-token
+  template.app-deployed: |
+    message: |
+      {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} is now running new version of deployments manifests.
+    slack:
+      attachments: |
+        [{
+          "title": "{{ .app.metadata.name}}",
+          "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+          "color": "#18be52",
+          "fields": [
+          {
+            "title": "Sync Status",
+            "value": "{{.app.status.sync.status}}",
+            "short": true
+          },
+          {
+            "title": "Repository",
+            "value": "{{.app.spec.source.repoURL}}",
+            "short": true
+          },
+          {
+            "title": "Image",
+            "value": "{{index .app.status.summary.images 0}}",
+            "short": true
+          }
+          {{range $index, $c := .app.status.conditions}}
+          {{if not $index}},{{end}}
+          {{if $index}},{{end}}
+          {
+            "title": "{{$c.type}}",
+            "value": "{{$c.message}}",
+            "short": true
+          }
+          {{end}}
+          ]
+        }]
+  template.app-health-degraded: |
+    message: |
+      {{if eq .serviceType "slack"}}:exclamation:{{end}} Application {{.app.metadata.name}} has degraded.
+      Application details: {{.app.metadata.name}}.
+    slack:
+      attachments: |
+        [{
+          "title": "{{ .app.metadata.name}}",
+          "title_link": "{{.app.metadata.name}}",
+          "color": "#f4c030",
+          "fields": [
+          {
+            "title": "Health Status",
+            "value": "{{.app.status.health.status}}",
+            "short": true
+          },
+          {
+            "title": "Repository",
+            "value": "{{.app.spec.source.repoURL}}",
+            "short": true
+          },
+          {
+            "title": "Image",
+            "value": "{{index .app.status.summary.images 0}}",
+            "short": true
+          }
+          {{range $index, $c := .app.status.conditions}}
+          {{if not $index}}{{end}}
+          {{if $index}},{{end}}
+          {
+            "title": "{{$c.type}}",
+            "value": "{{$c.message}}",
+            "short": true
+          }
+          {{end}}
+          ]
+        }]
+  trigger.on-deployed: |
+    - description: Application is synced and healthy. Triggered once per commit.
+      oncePer: app.status.sync.revision
+      send:
+      - app-deployed
+      when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+  trigger.sync-operation-change: >
+    - when: app.status.sync.status == 'OutOfSync' and app.status.health.status
+    != 'Degraded' and app.status.operationState.phase != 'Failed' and
+    app.status.operationState.phase != 'Error' and
+    app.status.operationState.phase != 'Running'
+      send: [send-slack-orange]
+      oncePer: app.status.sync.revision
+    - when: app.status.sync.status == 'Synced' and app.status.health.status ==
+    'Healthy' and app.status.operationState.phase != 'Failed' and
+    app.status.operationState.phase != 'Error' and
+    app.status.operationState.phase != 'Running' 
+      send: [send-slack-green]
+      oncePer: app.status.sync.revision
+    - when: app.status.operationState.phase == 'Failed' or
+    app.status.health.status == 'Degraded' or app.status.operationState.phase ==
+    'Error' and app.status.operationState.phase != 'Running'
+      send: [send-slack-red]
+      oncePer: app.status.sync.revision

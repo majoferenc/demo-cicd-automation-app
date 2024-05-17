@@ -2,39 +2,19 @@ apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
   name: github
+  namespace: argo
 spec:
   template:
     serviceAccountName: operate-workflow-sa
   dependencies:
-    - name: test-dep
+    - name: github
       eventSourceName: github
-      eventName: example
-      filters:
-        data:
-          - path: headers.X-Github-Event
-            type: string
-            value:
-              - pull_request
-          - path: body.action
-            type: string
-            value:
-              - opened
-              - edited
-              - reopened
-              - synchronize
-          - path: body.pull_request.state
-            type: string
-            value:
-              - open
-          - path: body.pull_request.base.ref
-            type: string
-            value:
-              - master
+      eventName: argo-combined-app
   triggers:
     - template:
         name: github-workflow-trigger
-        k8s:
-          operation: create
+        argoWorkflow:
+          operation: submit
           source:
             resource:
               apiVersion: argoproj.io/v1alpha1

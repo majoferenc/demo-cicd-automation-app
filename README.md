@@ -270,7 +270,6 @@ Create GitHub Webhook:
 After that you can apply the manifests:
 - `.argo/git_event_source.yaml`
 - `.argo/sensor.yaml`
-- `.argo/webhook-eventsource.svc.yaml`
 - `.argo/eventbus.yaml`
 
 Try to commit new changes into your main branch.

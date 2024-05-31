@@ -71,7 +71,7 @@ kubectl apply -f .argo/eventbus.yaml
 
 # Setup ArgoCD notifications
 echo "Setting up ArgoCD notifications..."
-kubectl replace -n argocd configmap argocd-notifications-cm --from-file=.argo/argocd-notifications-cm.yaml
+kubectl replace -n argocd configmap argocd-notifications-cm -f .argo/argocd-notifications-cm.yaml
 
 # Create Slack Application and setup token
 echo "Setting up Slack notifications..."

@@ -1,6 +1,4 @@
 #!/bin/bash
-set -x
-set -e
 
 sh ./quick_replace.sh
 

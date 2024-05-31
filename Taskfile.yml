@@ -49,7 +49,16 @@ tasks:
   webhook_tunnel:
     cmds:
     - ngrok http 12000 --scheme http,https
+  quick_env_replace:
+    cmds:
+    - |
+      chmod +x quick_replace.sh
+      sh quick_replace.sh
+  quick_setup:
+    cmds:
+    - |
+      chmod +x quick_setup.sh
+      sh quick_setup.sh
   clear_nix:
     cmds:
     - nix-collect-garbage
-

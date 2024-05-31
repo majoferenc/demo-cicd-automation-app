@@ -13,6 +13,14 @@ data:
     - on-sync-succeeded
   service.slack: |
     token: $slack-token
+  service.webhook.slack_webhook: >
+    url:
+    your_webhook_url
+  
+    headers:
+
+    - name: Content-Type
+      value: application/json
   template.app-deployed: |
     message: |
       {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} is now running new version of deployments manifests.

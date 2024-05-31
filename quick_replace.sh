@@ -1,6 +1,4 @@
 #!/bin/bash
-set -x
-set -e
 
 # Configurable variables
 if [ -f .env ]

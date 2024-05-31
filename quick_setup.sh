@@ -4,6 +4,12 @@ set -e
 
 sh ./quick_replace.sh
 
+# Configurable variables
+if [ -f .env ]
+then
+  export $(cat .env | xargs)
+fi
+
 export NIXPKGS_ALLOW_UNFREE=1
 
 # Setup Docker Hub credentials

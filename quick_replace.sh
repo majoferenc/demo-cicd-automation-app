@@ -1,13 +1,12 @@
 #!/bin/bash
 set -x
 set -e
+
 # Configurable variables
-GITHUB_USERNAME="YOUR_USERNAME"
-DOCKERHUB_USERNAME="YOUR_USERNAME"
-DOCKERHUB_PASSWORD="YOUR_PASSWORD"
-DOCKERHUB_EMAIL="YOUR_EMAIL"
-GIT_ACCESS_TOKEN="YOUR_ACCESS_TOKEN"
-NGROK_TOKEN="YOUR_TOKEN"
+if [ -f .env ]
+then
+  export $(cat .env | xargs)
+fi
 
 # Paths and URLs
 REPO_URL="https://github.com/$GITHUB_USERNAME/demo-cicd-automation-app.git"

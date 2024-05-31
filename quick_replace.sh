@@ -28,9 +28,10 @@ awk -v gh_user="$GITHUB_USERNAME" -v dh_user="$DOCKERHUB_USERNAME" '
 }' .argo/workflow.yaml > .argo/workflow.yaml.tmp && mv .argo/workflow.yaml.tmp .argo/workflow.yaml
 
 echo "Updating application.yaml..."
-awk -v gh_user="$GITHUB_USERNAME" '
+awk -v gh_user="$GITHUB_USERNAME" -v slack_channel="$SLACK_CHANNEL_NAME" '
 {
   gsub("majoferenc", gh_user);
+  gsub("deployments-notification", slack_channel);
   print
 }' .argo/application.yaml > .argo/application.yaml.tmp && mv .argo/application.yaml.tmp .argo/application.yaml
 
@@ -56,4 +57,11 @@ awk -v gh_user="$GITHUB_USERNAME" -v dh_user="$DOCKERHUB_USERNAME" '
   gsub("marianferenc", dh_user);
   print
 }' .argo/git_event_source.yaml > .argo/git_event_source.yaml.tmp && mv .argo/git_event_source.yaml.tmp .argo/git_event_source.yaml
+
+echo "Updating slack_notifications_cm.yaml..."
+awk -v slack_webhook_url="$SLACK_WEBHOOK_URL" '
+{
+  gsub("$slack-token", slack_webhook_url);
+  print
+}' .argo/argocd-notifications-cm.yaml > .argo/argocd-notifications-cm.yaml.tmp && mv .argo/argocd-notifications-cm.yaml.tmp .argo/argocd-notifications-cm.yaml
 

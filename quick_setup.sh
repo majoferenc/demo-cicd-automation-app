@@ -75,7 +75,7 @@ kubectl replace -n argocd configmap argocd-notifications-cm --from-file=.argo/ar
 
 # Create Slack Application and setup token
 echo "Setting up Slack notifications..."
-SLACK_TOKEN="your-slack-token"  # Replace this with your actual Slack token
+kubectl delete secret argocd-notifications-secret --ignore-not-found=true -n argocd
 kubectl create secret generic argocd-notifications-secret -n argocd --from-literal=slack-token=$SLACK_TOKEN
 
 echo "Setup complete!"
@@ -95,3 +95,5 @@ echo "Commit to your repo and observe the Workflow on:"
 echo "==> https://localhost:32009"
 echo "Deployment could be checked on:"
 echo "==> https://localhost:32008"
+echo "Get ArgoCD password via command"
+echo "task argocd_pass"

@@ -1,5 +1,6 @@
-### testing workflows vol.3
 # Demo Argo Workflow & ArgoCD App
+The solution was created with focus on Cloud agnostic & On Premise ready pipeline, which can be facilitated even locally.
+
 This repository wants to achieve following CI/CD platform:
 
 ![Target Schema](/docs/target_schema.png)
@@ -10,50 +11,19 @@ This repository wants to achieve following CI/CD platform:
 Install WSL https://learn.microsoft.com/en-us/windows/wsl/install
 
 ## Forking and Configuring Repository for Personal Use
-To use this repository for your own purposes, you'll need to fork it and make several changes to configure it for your own GitHub repository and DockerHub username.
+To use this repository for your own purposes, you'll need to fork it and trigger script `quick_replace.sh`, which will inject all necessary configuration into the pipeline definitions.
 
-Fork the Repository: Fork this repository to your own GitHub account.
+To run the script:
 
-Update Workflow YAML:
+    git clone https://github.com/<your-username>/demo-cicd-automation-app.git
+    cd demo-cicd-automation-app
+    sh quick_replace.sh
 
-In .argo/workflow.yaml, change the GitHub repository URL and DockerHub username:
-
-Line 48: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace` -> Change `majoferenc` to your GitHub username.
-
-Line 94: `buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true` -> Change `marianferenc` to your DockerHub username.
-
-Line 103: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username.
-
-Update Application Configuration:
-
-In `.argo/application.yaml`, update the repository URL:
-
-Line 13: `repoURL: https://github.com/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
-
-Update Chart Values:
-
-In `chart/values.yaml`, update the DockerHub repository:
-
-Line 7: `repository: docker.io/marianferenc/argo-demo-app` -> Change `marianferenc` to your DockerHub username.
-
-Update sensor configuration for events and webhooks:
-
-In `.argo/sensor.yaml`, update the repository URL:
-
-Line 87: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git /workspace` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
-
-Line 133: `buildctl-daemonless.sh build --frontend dockerfile.v0 --local context=. --local dockerfile=. --output type=image,name=docker.io/marianferenc/argo-demo-app:$GIT_HASH,push=true` -> Change `marianferenc` to your DockerHub username.
-
-Line 142: `git clone $GIT_REPO_BASE_PATH/majoferenc/demo-cicd-automation-app.git` -> Change `majoferenc` to your GitHub username (ensure case sensitivity).
-
-
-After making these changes, your forked repository should be configured for your personal use with updated GitHub and DockerHub references.
 
 ### CLI tools via NixOS
 We can install them via NixOS configuration, which is already prepared in this repository in a format of `shell.nix`.
-To start with the installation don't forget to clone this repo first and navigate inside it before starting the installation, otherwise the `shell.nix` file will be not recognized and the CLI tools will be not installed.
+To start with the installation don't forget to navigate to this repo first and navigate inside it before starting the installation, otherwise the `shell.nix` file will be not recognized and the CLI tools will be not installed.
 
-    git clone https://github.com/<your-username>/demo-cicd-automation-app.git
     cd demo-cicd-automation-app
 
 We will install following CLI tools:
@@ -222,7 +192,7 @@ Don't forget to port forward first via `task argocdui` if the forwarding process
     argocd login localhost:8080 
     argocd app create cicd-automation-demo --repo https://github.com/majoferenc/demo-cicd-automation-app.git  --dest-server https://kubernetes.default.svc --dest-namespace default  --path chart
 
-## Configure GitHub Webhook tunnel (To be checked)
+## Configure GitHub Webhook tunnel (Needed only for local environment)
 
 ![Target Schema](/docs/argo-events-diagram.png)
 

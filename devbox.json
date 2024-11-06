@@ -1,0 +1,37 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.6/.schema/devbox.schema.json",
+  "packages": [
+    "curl@latest",
+    "wget@latest",
+    "git@latest",
+    "argo@latest",
+    "argocd@latest",
+    "kubernetes-helm@latest",
+    "kubectl@latest",
+    "k9s@latest",
+    "kubectx@latest",
+    "docker@latest",
+    "neovim@latest",
+    "jq@latest",
+    "mktemp@latest",
+    "yq@latest",
+    "argocd-autopilot@latest",
+    "go-task@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to devbox!' > /dev/null",
+      "alias ll='ls -lptrah'",
+      "alias k='kubectl'",
+      "alias kns='kubens'",
+      "alias kctx='kubectx'",
+      "alias kgp='kubectl get pods'",
+      "alias kgs='kubectl get svc'"
+    ],
+    "scripts": {
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
+    }
+  }
+}

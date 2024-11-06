@@ -40,26 +40,26 @@ awk -v dh_user="$DOCKERHUB_USERNAME" '
   print
 }' chart/values.yaml > chart/values.yaml.tmp && mv chart/values.yaml.tmp chart/values.yaml
 
-echo "Updating sensor.yaml..."
-awk -v gh_user="$GITHUB_USERNAME" -v dh_user="$DOCKERHUB_USERNAME" '
-{
-  gsub("majoferenc", gh_user);
-  gsub("marianferenc", dh_user);
-  print
-}' .argo/sensor.yaml > .argo/sensor.yaml.tmp && mv .argo/sensor.yaml.tmp .argo/sensor.yaml
+#echo "Updating sensor.yaml..."
+#awk -v gh_user="$GITHUB_USERNAME" -v dh_user="$DOCKERHUB_USERNAME" '
+#{
+#  gsub("majoferenc", gh_user);
+#  gsub("marianferenc", dh_user);
+#  print
+#}' .argo/sensor.yaml > .argo/sensor.yaml.tmp && mv .argo/sensor.yaml.tmp .argo/sensor.yaml
 
-echo "Updating git_event_source.yaml..."
-awk -v gh_user="$GITHUB_USERNAME" -v dh_user="$DOCKERHUB_USERNAME" '
-{
-  gsub("majoferenc", gh_user);
-  gsub("marianferenc", dh_user);
-  print
-}' .argo/git_event_source.yaml > .argo/git_event_source.yaml.tmp && mv .argo/git_event_source.yaml.tmp .argo/git_event_source.yaml
+#echo "Updating git_event_source.yaml..."
+#awk -v gh_user="$GITHUB_USERNAME" -v dh_user="$DOCKERHUB_USERNAME" '
+#{
+#  gsub("majoferenc", gh_user);
+#  gsub("marianferenc", dh_user);
+#  print
+#}' .argo/git_event_source.yaml > .argo/git_event_source.yaml.tmp && mv .argo/git_event_source.yaml.tmp .argo/git_event_source.yaml
 
-echo "Updating slack_notifications_cm.yaml..."
-awk -v slack_webhook_url="$SLACK_WEBHOOK_URL" '
-{
-  gsub("your_webhook_url", slack_webhook_url);
-  print
-}' .argo/argocd-notifications-cm.yaml > .argo/argocd-notifications-cm.yaml.tmp && mv .argo/argocd-notifications-cm.yaml.tmp .argo/argocd-notifications-cm.yaml
+#echo "Updating slack_notifications_cm.yaml..."
+#awk -v slack_webhook_url="$SLACK_WEBHOOK_URL" '
+#{
+#  gsub("your_webhook_url", slack_webhook_url);
+#  print
+#}' .argo/argocd-notifications-cm.yaml > .argo/argocd-notifications-cm.yaml.tmp && mv .argo/argocd-notifications-cm.yaml.tmp .argo/argocd-notifications-cm.yaml
 

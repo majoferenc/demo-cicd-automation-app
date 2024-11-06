@@ -8,7 +8,7 @@ then
   export $(cat .env | xargs)
 fi
 
-export NIXPKGS_ALLOW_UNFREE=1
+#export NIXPKGS_ALLOW_UNFREE=1
 
 # Setup Docker Hub credentials
 echo "Setting up Docker Hub credentials..."
@@ -32,8 +32,8 @@ kubectx rancher-desktop
 echo "Installing Argo Workflows..."
 task install_argowfl
 
-echo "Installing Argo Events..."
-task install_argoevents
+#echo "Installing Argo Events..."
+#task install_argoevents
 
 echo "Installing Argo CD..."
 task install_argocd
@@ -58,37 +58,37 @@ echo "Deploying ArgoCD application..."
 kubectl apply -f .argo/application.yaml
 
 # Configure GitHub Webhook tunnel
-echo "Configuring GitHub Webhook tunnel..."
-export NGROK_ACC_TOKEN=$NGROK_TOKEN
-ngrok config add-authtoken $NGROK_ACC_TOKEN
+#echo "Configuring GitHub Webhook tunnel..."
+#export NGROK_ACC_TOKEN=$NGROK_TOKEN
+#ngrok config add-authtoken $NGROK_ACC_TOKEN
 
 # Apply Argo Event Source and Sensor manifests
-echo "Applying Argo Event Source and Sensor manifests..."
-kubectl apply -f .argo/sensor.yaml
-kubectl apply -f .argo/eventbus.yaml
+#echo "Applying Argo Event Source and Sensor manifests..."
+#kubectl apply -f .argo/sensor.yaml
+#kubectl apply -f .argo/eventbus.yaml
 
 # Setup ArgoCD notifications
-echo "Setting up ArgoCD notifications..."
-kubectl replace -n argocd configmap argocd-notifications-cm -f .argo/argocd-notifications-cm.yaml
+#echo "Setting up ArgoCD notifications..."
+#kubectl replace -n argocd configmap argocd-notifications-cm -f .argo/argocd-notifications-cm.yaml
 
 # Create Slack Application and setup token
-echo "Setting up Slack notifications..."
-kubectl delete secret argocd-notifications-secret --ignore-not-found=true -n argocd
-kubectl create secret generic argocd-notifications-secret -n argocd --from-literal=slack-token=$SLACK_TOKEN
+#echo "Setting up Slack notifications..."
+#kubectl delete secret argocd-notifications-secret --ignore-not-found=true -n argocd
+#kubectl create secret generic argocd-notifications-secret -n argocd --from-literal=slack-token=$SLACK_TOKEN
 
 echo "Setup complete!"
-echo "=======> Manual Steps <======="
+#echo "=======> Manual Steps <======="
 
-echo "Start Ngrok tunnel using:"
-echo "task webhook_tunnel"
-echo "Update git_event_source.yaml ngrok URL with generate https ngrok URL, example: https://9cb4-84-245-120-213.ngrok-free.app"
+#echo "Start Ngrok tunnel using:"
+#echo "task webhook_tunnel"
+#echo "Update git_event_source.yaml ngrok URL with generate https ngrok URL, example: https://9cb4-84-245-120-213.ngrok-free.app"
 
-echo "Apply the file:"
-echo "kubectl apply -f .argo/git_event_source.yaml"
-echo "Create the GitHub Webhook, set Payload URL to https://your-ngrok-url/argo-combined-app"
-echo "Run port-forward of the event service:"
-echo "kubectl port-forward svc/github-eventsource-svc 12000 -n argo"
-echo "Done!"
+#echo "Apply the file:"
+#echo "kubectl apply -f .argo/git_event_source.yaml"
+#echo "Create the GitHub Webhook, set Payload URL to https://your-ngrok-url/argo-combined-app"
+#echo "Run port-forward of the event service:"
+#echo "kubectl port-forward svc/github-eventsource-svc 12000 -n argo"
+#echo "Done!"
 echo "Commit to your repo and observe the Workflow on:"
 echo "==> https://localhost:32009"
 echo "Deployment could be checked on:"

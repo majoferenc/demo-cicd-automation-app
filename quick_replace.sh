@@ -15,7 +15,7 @@ NODE_PORT_ARGO_WORKFLOW=32009
 NODE_PORT_ARGOCD=32008
 
 echo "Cleaning old config..."
-kubectl delete -f .argo --ignore-not-found=true 
+#kubectl delete -f .argo --ignore-not-found=true 
 
 echo "Updating workflow.yaml..."
 awk -v gh_user="$GITHUB_USERNAME" -v dh_user="$DOCKERHUB_USERNAME" '

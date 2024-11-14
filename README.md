@@ -20,9 +20,9 @@ To run the script:
     sh quick_replace.sh
 
 
-### CLI tools via NixOS
-We can install them via NixOS configuration, which is already prepared in this repository in a format of `shell.nix`.
-To start with the installation don't forget to navigate to this repo first and navigate inside it before starting the installation, otherwise the `shell.nix` file will be not recognized and the CLI tools will be not installed.
+### CLI tools via DevBox
+We can install CLI tools via DevBox configuration, which is already prepared in this repository in a format of `devbox.json`.
+To start with the installation don't forget to navigate to this repo first and navigate inside it before starting the installation, otherwise the `devbox.json` file will be not recognized and the CLI tools will be not installed.
 
     cd demo-cicd-automation-app
 
@@ -44,26 +44,22 @@ We will install following CLI tools:
 - `Taskfile`: Modern Makefile alternative for executing commands locally and remotely written in a popular yaml format.
 - `Ngrok`: A tool for creating secure tunnels to localhost, enabling public access to locally hosted services during development or testing.
 - 
-Via NixOS:
+Via DevBox:
 
-    curl -L https://nixos.org/nix/install | sh
+    curl -fsSL https://get.jetify.com/devbox | bash​
 
-During the Nix installation you will need to follow on screeen instructions to complete the setup.
-After that you can run Nix shell:
+During the DevBox installation you will need to follow on screeen instructions to complete the setup.
+After that you can run DevBox shell:
 
-    nix-shell
+    devbox shell
 
-Don't forget that every time you want to active nix shell and work with task commands in this repo you need to execute following:
+Don't forget that every time you want to active DevBox shell and work with task commands in this repo you need to execute following:
 
     cd demo-cicd-automation-app
-    nix-shell
+    devbox shell
 
-To stop using installed packages, just type `exit` command and your Nix session will stop.
+To stop using installed packages, just type `exit` command and your DevBox session will stop.
 Search for more packages on https://search.nixos.org to try them out.
-
-After the workshop to free up Nix storage:
-
-    task clear_nix
 
 ### Setup local k8s cluster (Only if you don't have existing one)
 - Install Rancher Desktop from https://rancherdesktop.io/

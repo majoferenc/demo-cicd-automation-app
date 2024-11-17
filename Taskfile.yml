@@ -19,17 +19,25 @@ tasks:
   setup_docker_creds:
     cmds:
     - |
+      # Load environment variables from .env file
+      if [ -f .env ]; then
+        export $(grep -v '^#' .env | xargs)
+      else
+        echo ".env file not found in the current directory."
+        exit 1
+      fi
       temp_dir=$(mktemp -d)
       export REGISTRY_SERVER='https://index.docker.io/v1/’​
       kubectl create secret docker-registry registry-creds \
-      --docker-server=$REGISTRY_SERVER \
-      --docker-username=$REGISTRY_USER \
-      --docker-password=$REGISTRY_PASSWORD \
-      --docker-email=$REGISTRY_EMAIL \
-      --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 --decode > $temp_dir/config.json
+        --docker-server=$REGISTRY_SERVER \
+        --docker-username=$DOCKERHUB_USERNAME \
+        --docker-password=$DOCKERHUB_PASSWORD \
+        --docker-email=$DOCKERHUB_EMAIL \
+        --dry-run=client -o json | jq -r '.data.".dockerconfigjson"' | base64 --decode > $temp_dir/config.json
       kubectl delete secret config.json --ignore-not-found=true -n argo
       kubectl create secret generic config.json --from-file=$temp_dir/config.json -n argo -o yaml | kubectl apply -f -
       rm -rf $temp_dir
+      kubectl get secret -n argo
   create_github_creds:
     cmds:
     - |

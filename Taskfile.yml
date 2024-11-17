@@ -6,11 +6,13 @@ tasks:
     - |
       kubectl create namespace argo --dry-run=client -o yaml | kubectl apply -f -
       kubectl apply -n argo -f https://github.com/argoproj/argo-workflows/releases/download/v3.5.5/quick-start-minimal.yaml
+      kubectl apply -f .argo/argo-nodeport-svc.yaml 
   install_argocd:
     cmds:
     - |
       kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
       kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+      kubectl apply -f .argo/argocd-nodeport-svc.yaml
   install_argoevents:
     cmds:
     - |

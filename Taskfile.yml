@@ -41,8 +41,16 @@ tasks:
   create_github_creds:
     cmds:
     - |
+      # Load environment variables from .env file
+      if [ -f .env ]; then
+        export $(grep -v '^#' .env | xargs)
+      else
+        echo ".env file not found in the current directory."
+        exit 1
+      fi
       kubectl delete secret git-credentials-secret --ignore-not-found=true -n argo
       kubectl create secret generic git-credentials-secret --from-literal=.git-credentials="https://$GIT_ACCESS_TOKEN@github.com" -n argo -o yaml | kubectl apply -f -
+      kubectl get secret git-credentials-secret -n argo
   argowfl:
     cmds:
     - kubectl -n argo port-forward service/argo-server 2746:2746

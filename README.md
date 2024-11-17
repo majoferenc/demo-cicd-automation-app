@@ -108,28 +108,20 @@ https://argo-cd.readthedocs.io/en/stable/getting_started/
     task install_argocd
 
 ## Setup Docker Hub credentials
-
-    export REGISTRY_SERVER='https://index.docker.io/v1/'
-    export REGISTRY_USER='your-username'
-    export REGISTRY_PASSWORD='your-password'
-    export REGISTRY_EMAIL='your-email'
+Update .env file in this repository. After that call:
 
     task setup_docker_creds
 
 ## Setup Github Credentials
+Update .env file in this repository. After that call:
 
-    export GIT_ACCESS_TOKEN='your-access-token'
     task create_github_creds
 
 ## Access Argo Workflow UI
 
 The Argo Workflow UI can be accessed in two possible ways:
 
-Either you can create the `NodePort` service to make the Argo Workflow UI available permanently on your machine by applying the configuration file:
-    
-    kubectl create -f .argo/argo-nodeport-svc.yaml
-
-After applying the resource, then the Argo Workflow UI will be available on the specified `NodePort`: https://localhost:32009
+The Argo Workflow UI will be available on the specified `NodePort`: https://localhost:32009
 
 Or you can start the port-forward task, to make Argo Workflow UI available temporarily: 
    
@@ -158,7 +150,7 @@ Either you can create the `NodePort` service to make the ArgoCD UI available per
     
     kubectl create -f .argo/argocd-nodeport-svc.yaml
 
-After applying the resource, then the ArgoCD UI will be available on the specified `NodePort`: https://localhost:32008
+Or the ArgoCD UI will be available on the specified `NodePort`: https://localhost:32008
 
 Or you can start the port-forward task, to make ArgoCD UI available temporarily: 
    
@@ -167,6 +159,9 @@ Or you can start the port-forward task, to make ArgoCD UI available temporarily:
 Then the ArgoCD UI is accessible at https://localhost:8080
 
 # Login credentials:
+To get password:
+
+    task argocd_pass
 
 ArgoCD credentials:
 username: admin

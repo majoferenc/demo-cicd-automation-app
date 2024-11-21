@@ -6,7 +6,7 @@ image:
   repository: docker.io/marianferenc/argo-demo-app
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: acade7a
+  tag: 279a27c
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
